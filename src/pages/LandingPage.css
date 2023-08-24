@@ -2,6 +2,10 @@
   display: flex;
 }
 
+.form {
+  margin-right: 60px;
+}
+
 .address-row {
   display: flex;
   justify-content: space-between;
