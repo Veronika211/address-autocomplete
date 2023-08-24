@@ -45,6 +45,9 @@ const AddressInput = ({ selectedLocation, setSelectedLocation }) => {
   const handleLocationSelect = (location) => {
     const autocompleteData = transformObject(location.context);
     setAddress(location.place_name);
+    setTimeout(() => {
+      setSuggestions([]);
+    }, 200);
     setSelectedLocation({
       ...selectedLocation,
       address: location.place_name,
@@ -53,9 +56,6 @@ const AddressInput = ({ selectedLocation, setSelectedLocation }) => {
       country: autocompleteData.country,
       center: location.center,
     });
-    setTimeout(() => {
-      setSuggestions([]);
-    }, 100);
   };
 
   return (

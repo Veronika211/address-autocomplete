@@ -1,6 +1,6 @@
 import "./Button.css";
 
-const Button = ({ label, disabled, handleClick, type, parentClassName }) => {
+const Button = ({ label, disabled, onClick, type, parentClassName }) => {
   const buttonClassName = `${parentClassName} button ${
     disabled ? "disabled" : ""
   }`;
@@ -8,7 +8,7 @@ const Button = ({ label, disabled, handleClick, type, parentClassName }) => {
   return (
     <button
       disabled={disabled}
-      onClick={handleClick}
+      onClick={onClick}
       type={type}
       className={buttonClassName}
     >

@@ -5,7 +5,7 @@ import mapboxgl from "mapbox-gl";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
-const MapComponent = ({ selectedLocation }) => {
+const MapComponent = ({ selectedLocation, setSelectedLocation }) => {
   const [viewport, setViewport] = useState({
     latitude: selectedLocation.center[1],
     longitude: selectedLocation.center[0],
@@ -29,7 +29,6 @@ const MapComponent = ({ selectedLocation }) => {
       longitude: selectedLocation.center[0],
       zoom: 17,
     });
-    console.log(viewport);
   }, [selectedLocation]);
 
   const handleLocationChange = (e) => {
@@ -37,6 +36,10 @@ const MapComponent = ({ selectedLocation }) => {
       ...viewport,
       latitude: e.lngLat.lat,
       longitude: e.lngLat.lng,
+    });
+    setSelectedLocation({
+      ...selectedLocation,
+      center: [e.lngLat.lng, e.lngLat.lat],
     });
   };
 
@@ -67,7 +70,10 @@ const MapComponent = ({ selectedLocation }) => {
                 draggable
                 onDragEnd={(e) => handleLocationChange(e)}
               />
-              <NavigationControl position="bottom-right" />
+              <NavigationControl
+                position="bottom-right"
+                style={{ zIndex: 20 }}
+              />
               <GeolocateControl
                 position="top-left"
                 trackUserLocation
