@@ -3,7 +3,7 @@ import "./LandingPage.css";
 import Button from "../components/button/Button";
 import InputField from "../components/inputField/InputField";
 import MapComponent from "../components/location/Map";
-import AddressInput from "../components/location/PlacesAutocomplete";
+import AddressInput from "../components/location/AddressAutocompleteInput";
 import Modal from "../components/modal/Modal";
 import { BUTTON_VARIANTS } from "../helpers/constants";
 // import PlacesAutocompleteComponent from "../components/location/PlacesAutocomplete";
@@ -19,6 +19,13 @@ const LandingPage = () => {
     center: [0, 0],
   });
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [formErrors, setFormErrors] = useState({
+    addressError: "",
+    city: "",
+    state: "",
+    postcode: "",
+    country: "",
+  });
 
   const resetForm = () => {
     setSelectedLocation({
@@ -30,11 +37,52 @@ const LandingPage = () => {
       country: "",
       center: [0, 0],
     });
+    setFormErrors({
+      address: "",
+      addressLine2: "",
+      city: "",
+      state: "",
+      postcode: "",
+      country: "",
+    });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!validateForm()) return;
     console.log(selectedLocation);
+    console.log("pozvana");
+  };
+
+  const validateForm = () => {
+    const errors = {};
+
+    if (selectedLocation.address === "") {
+      errors.address = "Address is required.";
+    }
+
+    if (selectedLocation.addressLine2 === "") {
+      errors.addressLine2 = "Address Line 2 is required.";
+    }
+
+    if (selectedLocation.city === "") {
+      errors.city = "City is required.";
+    }
+
+    if (selectedLocation.state === "") {
+      errors.state = "State is required.";
+    }
+
+    if (selectedLocation.postcode === "") {
+      errors.postcode = "Postcode is required.";
+    }
+
+    if (selectedLocation.country === "") {
+      errors.country = "Country is required.";
+    }
+
+    setFormErrors({ ...errors });
+    return Object.keys(errors).length < 1;
   };
 
   const handleChange = (e) => {
@@ -51,6 +99,7 @@ const LandingPage = () => {
             <AddressInput
               selectedLocation={selectedLocation}
               setSelectedLocation={setSelectedLocation}
+              error={formErrors.address}
             />
           </div>
           <InputField
@@ -58,14 +107,16 @@ const LandingPage = () => {
             placeholder="Apt / Suite / Bldg / Unit"
             name="addressLine2"
             value={selectedLocation.addressLine2}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
+            error={formErrors.addressLine2}
           />
           <InputField
             label="City"
             placeholder="City"
             name="city"
             value={selectedLocation.city}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
+            error={formErrors.city}
           />
           <div className="address-row">
             <InputField
@@ -74,7 +125,8 @@ const LandingPage = () => {
               name="state"
               parentClassName="flexbox-input"
               value={selectedLocation.state}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
+              error={formErrors.state}
             />
 
             <InputField
@@ -83,7 +135,8 @@ const LandingPage = () => {
               name="postcode"
               parentClassName="flexbox-input"
               value={selectedLocation.postcode}
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
+              error={formErrors.postcode}
             />
           </div>
           <InputField
@@ -91,13 +144,16 @@ const LandingPage = () => {
             placeholder="Country"
             name="country"
             value={selectedLocation.country}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
+            error={formErrors.country}
           />
           <Button
             label="Confirm"
             disabled={false}
             parentClassName="left-button"
-            onClick={() => setModalIsOpen(true)}
+            onClick={() => {
+              if (validateForm()) setModalIsOpen(true);
+            }}
             variant={BUTTON_VARIANTS.FILLED}
           />
           <Button

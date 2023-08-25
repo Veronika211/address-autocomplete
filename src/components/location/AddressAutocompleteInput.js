@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import InputField from "../inputField/InputField";
-import "./PlacesAutocomplete.css";
+import "./AddressAutocompleteInput.css";
 
-const AddressInput = ({ selectedLocation, setSelectedLocation }) => {
+const AddressInput = ({ selectedLocation, setSelectedLocation, error }) => {
   const [address, setAddress] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
@@ -67,6 +67,7 @@ const AddressInput = ({ selectedLocation, setSelectedLocation }) => {
         name="address"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
+        error={error}
       />
 
       {suggestions.length > 0 && (

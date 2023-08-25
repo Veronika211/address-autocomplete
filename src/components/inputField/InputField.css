@@ -21,3 +21,9 @@
 .input-field.flexbox-input input {
   width: none;
 }
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 8px;
+}
