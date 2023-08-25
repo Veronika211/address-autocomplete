@@ -5,6 +5,7 @@ import InputField from "../components/inputField/InputField";
 import MapComponent from "../components/location/Map";
 import AddressInput from "../components/location/PlacesAutocomplete";
 import Modal from "../components/modal/Modal";
+import { BUTTON_VARIANTS } from "../helpers/constants";
 // import PlacesAutocompleteComponent from "../components/location/PlacesAutocomplete";
 
 const LandingPage = () => {
@@ -36,6 +37,11 @@ const LandingPage = () => {
     console.log(selectedLocation);
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedLocation({ ...selectedLocation, [name]: value });
+  };
+
   return (
     <>
       <div className="landing-container">
@@ -52,12 +58,14 @@ const LandingPage = () => {
             placeholder="Apt / Suite / Bldg / Unit"
             name="addressLine2"
             value={selectedLocation.addressLine2}
+            onChange={(e) => handleChange(e)}
           />
           <InputField
             label="City"
             placeholder="City"
             name="city"
             value={selectedLocation.city}
+            onChange={(e) => handleChange(e)}
           />
           <div className="address-row">
             <InputField
@@ -66,6 +74,7 @@ const LandingPage = () => {
               name="state"
               parentClassName="flexbox-input"
               value={selectedLocation.state}
+              onChange={(e) => handleChange(e)}
             />
 
             <InputField
@@ -74,6 +83,7 @@ const LandingPage = () => {
               name="postcode"
               parentClassName="flexbox-input"
               value={selectedLocation.postcode}
+              onChange={(e) => handleChange(e)}
             />
           </div>
           <InputField
@@ -81,14 +91,21 @@ const LandingPage = () => {
             placeholder="Country"
             name="country"
             value={selectedLocation.country}
+            onChange={(e) => handleChange(e)}
           />
           <Button
             label="Confirm"
             disabled={false}
             parentClassName="left-button"
             onClick={() => setModalIsOpen(true)}
+            variant={BUTTON_VARIANTS.FILLED}
           />
-          <Button label="Reset" disabled={true} onClick={resetForm} />
+          <Button
+            label="Reset"
+            disabled={true}
+            onClick={resetForm}
+            variant={BUTTON_VARIANTS.FILLED}
+          />
         </form>
         <MapComponent
           selectedLocation={selectedLocation}

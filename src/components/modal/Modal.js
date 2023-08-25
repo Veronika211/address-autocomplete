@@ -3,6 +3,7 @@ import Button from "../button/Button";
 import "./Modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import { BUTTON_VARIANTS } from "../../helpers/constants";
 
 const Modal = ({ setIsOpen, modalTitle, modalDetails, submitFunction }) => {
   return (
@@ -25,11 +26,13 @@ const Modal = ({ setIsOpen, modalTitle, modalDetails, submitFunction }) => {
               submitFunction(event);
               setIsOpen(false);
             }}
+            variant={BUTTON_VARIANTS.FILLED}
             parentClassName="left-button"
           />
           <Button
             label="No"
             disabled={false}
+            variant={BUTTON_VARIANTS.OUTLINED}
             onClick={() => setIsOpen(false)}
           />
         </div>

@@ -1,7 +1,14 @@
 import "./Button.css";
 
-const Button = ({ label, disabled, onClick, type, parentClassName }) => {
-  const buttonClassName = `${parentClassName} button ${
+const Button = ({
+  label,
+  disabled,
+  onClick,
+  variant,
+  type,
+  parentClassName,
+}) => {
+  const buttonClassName = `${parentClassName} button ${variant} ${
     disabled ? "disabled" : ""
   }`;
 
