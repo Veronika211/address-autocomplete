@@ -2,18 +2,19 @@ import { useState, useEffect } from "react";
 import Map, { GeolocateControl, Marker, NavigationControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
+import "./Map.css";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
-const MapComponent = ({ selectedLocation, setSelectedLocation }) => {
+const MapComponent = ({ center, setSelectedLocation }) => {
   const [viewport, setViewport] = useState({
-    latitude: selectedLocation.center[1],
-    longitude: selectedLocation.center[0],
+    latitude: center[1],
+    longitude: center[0],
     zoom: 17,
   });
 
   useEffect(() => {
-    if (selectedLocation.center[0] === 0 && selectedLocation.center[1] === 0) {
+    if (center[0] === 0 && center[1] === 0) {
       navigator.geolocation.getCurrentPosition((pos) => {
         setViewport({
           ...viewport,
@@ -25,11 +26,11 @@ const MapComponent = ({ selectedLocation, setSelectedLocation }) => {
     }
     setViewport({
       ...viewport,
-      latitude: selectedLocation.center[1],
-      longitude: selectedLocation.center[0],
+      latitude: center[1],
+      longitude: center[0],
       zoom: 17,
     });
-  }, [selectedLocation]);
+  }, [center]);
 
   const handleLocationChange = (e) => {
     setViewport({
@@ -37,10 +38,10 @@ const MapComponent = ({ selectedLocation, setSelectedLocation }) => {
       latitude: e.lngLat.lat,
       longitude: e.lngLat.lng,
     });
-    setSelectedLocation({
-      ...selectedLocation,
+    setSelectedLocation((prevState) => ({
+      ...prevState,
       center: [e.lngLat.lng, e.lngLat.lat],
-    });
+    }));
   };
 
   const handleGeoLocationChange = (e) => {
@@ -56,12 +57,11 @@ const MapComponent = ({ selectedLocation, setSelectedLocation }) => {
     <div>
       {viewport.latitude && viewport.longitude && (
         <div>
-          <div style={{ width: "30vw", height: "50vh" }}>
+          <div className="map-container">
             <Map
               mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-              // initialViewState={viewport}
               {...viewport}
-              onMove={(evt) => setViewport(evt.viewState)}
+              onMove={(e) => setViewport(e.viewState)}
               mapStyle="mapbox://styles/mapbox/streets-v12"
             >
               <Marker
@@ -80,6 +80,12 @@ const MapComponent = ({ selectedLocation, setSelectedLocation }) => {
                 onGeolocate={(e) => handleGeoLocationChange(e)}
               />
             </Map>
+            {center[0] !== 0 && center[1] !== 0 && (
+              <div className="notification-container">
+                You can move the pin to adjust the exact location of your
+                building!
+              </div>
+            )}
           </div>
         </div>
       )}

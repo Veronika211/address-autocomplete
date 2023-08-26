@@ -1,0 +1,16 @@
+.map-container {
+  width: 30vw;
+  height: 50vh;
+}
+
+.notification-container {
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  margin-top: 15px;
+}

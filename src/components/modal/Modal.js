@@ -13,7 +13,7 @@ const Modal = ({ setIsOpen, modalTitle, modalDetails, submitFunction }) => {
           <div className="x-icon">
             <FontAwesomeIcon icon={faX} onClick={() => setIsOpen(false)} />
           </div>
-          <h2 className="modal-title">{modalTitle}</h2>
+          <h2>{modalTitle}</h2>
         </div>
         <div className="modal-body">{modalDetails}</div>
         <div className="modal-footer">

@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from "react";
 import InputField from "../inputField/InputField";
 import "./AddressAutocompleteInput.css";
+import { fetchAddressSuggestions } from "../../api/mapboxApi";
 
-const AddressInput = ({ selectedLocation, setSelectedLocation, error }) => {
-  const [address, setAddress] = useState("");
+const AddressInput = ({
+  selectedLocation,
+  setSelectedLocation,
+  error,
+  onBlur,
+}) => {
   const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
-    if (address.trim() === "") {
+    if (selectedLocation.address.trim() === "") {
       setSuggestions([]);
       return;
     }
-    async function fetchAddressSuggestions(query) {
-      const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?proximity=ip&access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`
+    async function fetchSuggestions() {
+      const suggestions = await fetchAddressSuggestions(
+        selectedLocation.address
       );
-      const data = await response.json();
-      setSuggestions(data.features);
+      setSuggestions(suggestions);
     }
 
-    fetchAddressSuggestions(address);
-  }, [address]);
+    fetchSuggestions();
+  }, [selectedLocation.address]);
 
   const transformObject = (objectArray) => {
     const newObject = {
@@ -44,10 +48,7 @@ const AddressInput = ({ selectedLocation, setSelectedLocation, error }) => {
 
   const handleLocationSelect = (location) => {
     const autocompleteData = transformObject(location.context);
-    setAddress(location.place_name);
-    setTimeout(() => {
-      setSuggestions([]);
-    }, 200);
+
     setSelectedLocation({
       ...selectedLocation,
       address: location.place_name,
@@ -56,6 +57,10 @@ const AddressInput = ({ selectedLocation, setSelectedLocation, error }) => {
       country: autocompleteData.country,
       center: location.center,
     });
+
+    setTimeout(() => {
+      setSuggestions([]);
+    }, 200);
   };
 
   return (
@@ -65,9 +70,21 @@ const AddressInput = ({ selectedLocation, setSelectedLocation, error }) => {
         label="Address"
         placeholder="Street Name"
         name="address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
+        value={selectedLocation.address}
+        onChange={(e) =>
+          setSelectedLocation((prevState) => ({
+            ...prevState,
+            address: e.target.value,
+          }))
+        }
+        onBlur={() => {
+          onBlur();
+          setTimeout(() => {
+            setSuggestions([]);
+          }, 200);
+        }}
         error={error}
+        parentClassName="address-form"
       />
 
       {suggestions.length > 0 && (
