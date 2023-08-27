@@ -50,6 +50,7 @@ const LandingPage = () => {
     event.preventDefault();
     if (!validateForm()) return;
     console.log(selectedLocation);
+    alert("You have successfully added new address!");
     resetForm();
   };
 
