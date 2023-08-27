@@ -168,7 +168,10 @@ const LandingPage = () => {
           <div>
             <Button
               label="Confirm"
-              disabled={false}
+              disabled={
+                selectedLocation.center[0] === 0 &&
+                selectedLocation.center[1] === 0
+              }
               parentClassName="left-button"
               onClick={handleConfirm}
               variant={BUTTON_VARIANTS.FILLED}
