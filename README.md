@@ -52,7 +52,7 @@ The app integrates map functionality using mapbox-gl and react-map-gl. Data for 
 ### Validation
 For validation of the form a custom validation is created since the validation is simple and there is only one form in the app. In the future, if the app gets bigger or more complex validation is needed i would use react-hook-form or formik. Furthermore, there can be added targeted validation for specific fields, such as postalcodes that are influenced by the chosen country.
 
-### Improvement
+## Improvements
 If i had more time i would:
  1. Create a snackbar component that will pop up instead of the alert window. The purpose of this snackbar would be to inform the user that data is successfully sent.
  2. Add unit tests for all components
