@@ -92,7 +92,7 @@ const AddressInput = ({
           {suggestions.map((suggestion) => (
             <li
               key={suggestion.id}
-              onClick={() => handleLocationSelect(suggestion)}
+              onMouseDown={() => handleLocationSelect(suggestion)}
             >
               {suggestion.place_name}
             </li>

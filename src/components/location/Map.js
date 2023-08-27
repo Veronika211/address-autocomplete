@@ -23,13 +23,14 @@ const MapComponent = ({ center, setSelectedLocation }) => {
           zoom: 17,
         });
       });
+    } else {
+      setViewport({
+        ...viewport,
+        latitude: center[1],
+        longitude: center[0],
+        zoom: 17,
+      });
     }
-    setViewport({
-      ...viewport,
-      latitude: center[1],
-      longitude: center[0],
-      zoom: 17,
-    });
   }, [center]);
 
   const handleLocationChange = (e) => {
