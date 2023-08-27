@@ -16,17 +16,28 @@ const AddressInput = ({
       setSuggestions([]);
       return;
     }
-    async function fetchSuggestions() {
-      const suggestions = await fetchAddressSuggestions(
-        selectedLocation.address
-      );
-      setSuggestions(suggestions);
-    }
-
-    fetchSuggestions();
   }, [selectedLocation.address]);
 
-  const transformObject = (objectArray) => {
+  useEffect(() => {
+    async function fetchSuggestions() {
+      try {
+        const suggestions = await fetchAddressSuggestions(
+          selectedLocation.address
+        );
+        setSuggestions(suggestions);
+      } catch (error) {
+        console.error("Error fetching address suggestions:", error);
+      }
+    }
+
+    const debounceTimeout = setTimeout(fetchSuggestions, 300);
+
+    return () => {
+      clearTimeout(debounceTimeout);
+    };
+  }, [selectedLocation.address]);
+
+  const extractAddressDetails = (objectArray) => {
     const newObject = {
       postcode: "",
       country: "",
@@ -47,7 +58,7 @@ const AddressInput = ({
   };
 
   const handleLocationSelect = (location) => {
-    const autocompleteData = transformObject(location.context);
+    const autocompleteData = extractAddressDetails(location.context);
 
     setSelectedLocation({
       ...selectedLocation,
@@ -60,7 +71,7 @@ const AddressInput = ({
 
     setTimeout(() => {
       setSuggestions([]);
-    }, 200);
+    }, 600);
   };
 
   return (
@@ -81,7 +92,7 @@ const AddressInput = ({
           onBlur();
           setTimeout(() => {
             setSuggestions([]);
-          }, 200);
+          }, 600);
         }}
         error={error}
         parentClassName="address-form"
