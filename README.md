@@ -40,6 +40,7 @@ npm start
 ## Development
 ### Folder structure
 App.js - the main component
+
 Folders:
 - pages/: Contains LandingPage.js for displaying the map and form components.
 - helpers/: Contains constants.js for storing app constants.
