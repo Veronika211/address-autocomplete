@@ -56,8 +56,7 @@ For validation of the form a custom validation is created since the validation i
 ## Improvements
 If i had more time i would:
  1. Create a snackbar component that will pop up instead of the alert window. The purpose of this snackbar would be to inform the user that data is successfully sent.
- 2. Refactor AddressAutocompleteInput.js component to work without three setTimeouts (had to add them because i had the problem with suggestions list being re-opened)
- 3. Add unit tests for all components
+ 2. Add unit tests for all components
 
 
 
